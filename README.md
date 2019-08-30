@@ -11,13 +11,11 @@ This respository contains scripts that enable the evaluation of the Aggrate View
 Training of AVOD was done on the KITTI dataset. Please refer to [1]. We trained AVOD to detect cars on the KITTI training set. The AVOD model was trained for 120,000 iterations and was then evaluated on the validation set. The evaluation metrics, 3D AP and AHS at 0.7 IoU were calculated for every 1,000 checkpoints. 
 We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,000 and the results obtained in: https://arxiv.org/abs/1712.02294 (Standard) were comparable. Checkpoint 83,000 was thus selected for all our analysis of the performance of AVOD on the CADCD. Ensure that your training results are comparable to Standard if you training on KITTI. 
 
-TABLE 1
-
 # Evaluation of AVOD on CADCD (+ tips to run evaluation on other datasets)
 
 ## Getting Started
 
-**Before proceeding, please ensure that you have read through the list of files that were changed. Replace the files in your AVOD repo which you acquired from [1] using the modified files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for their own dataset**
+**Before proceeding, please ensure that you have read through the list of files that were changed. Replace the files in your AVOD repo which you acquired from [1] using the modified files/new files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for other datasets.**
 
 ### List of files that were modified/added from/to the original AVOD repo [1]:
 
