@@ -83,7 +83,7 @@ Note: We normally do not import calib_utils (as it works for the KITTI dataset a
 
 #### 10: avod/demos/dataset/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo etc).
 
-We have tried to ensure, that you do not have to track things down all over the place. (Feel free to go all over the place if you want to see where most of these are coming from)
+We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 - import wavedata.tools.visualization import vis_utils (see 11.)
 
 #### 11: wavedata/wavedata/tools/visualization/vis_utils.py
@@ -96,9 +96,15 @@ We have tried to ensure, that you do not have to track things down all over the 
 - Add a new class ToggleActorsInteractorStyle
 
 #### 12: wavedata/wavedata/tools/visualization 
-We have many new files that aren't in the original repo. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo. We have tried to ensure, that you do not have to track things down all over the place. (Feel free to go all over the place if you want to see where most of these are coming from)
+We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo. We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 
-### 13: 
+### 14: #### 10: avod/demos/dataset/moose_show_predictions_2d.py 
+- modified /avod/demos/dataset/show_predictions_2d
+- removed original calibration (for KITTI)
+- import wavedata/tools/core/moose_load_calibration.py or your own calibration 
+- change 'global_step' to the checkpoint used for evaluation
+- change 'checkpoint_name' to reflect the config file that was used
+- calib_p2 was defined differently than the orig file
 
 
 
