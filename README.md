@@ -98,7 +98,7 @@ We have tried to ensure, that you do not have to track things down all over the 
 #### 12: wavedata/wavedata/tools/visualization 
 We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo. We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 
-### 14: #### 10: avod/demos/dataset/moose_show_predictions_2d.py 
+### 13: avod/demos/dataset/moose_show_predictions_2d.py 
 - modified /avod/demos/dataset/show_predictions_2d
 - removed original calibration (for KITTI)
 - import wavedata/tools/core/moose_load_calibration.py or your own calibration 
@@ -106,6 +106,13 @@ We have many new files that aren't in the original repo [1]. These come from pla
 - change 'checkpoint_name' to reflect the config file that was used
 - calib_p2 was defined differently than the orig file
 
+### 14: scripts/save_depth_maps.py 
+ - You need to ensure that Jason's IP basic repo is located in your AVOD repo
+ - import ip_basic
+ - from ip_basic.ip_basic import ip_depth_map_utils
+
+### 15: Others
+- Ensure that scripts/offline_eval/save_kitti_predictions.py have the correct checkpoint name
 
 
 
