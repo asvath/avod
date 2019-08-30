@@ -13,7 +13,7 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 
 TABLE 1
 
-# Evaluation of AVOD on CADCD
+# Evaluation of AVOD on CADCD (+ tips to run evaluation on other datasets)
 
 ## Getting Started
 
