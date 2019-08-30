@@ -9,7 +9,7 @@ This respository contains scripts that enable the evaluation of the Aggrate View
 
 # Training of AVOD
 Training of AVOD was done on the KITTI dataset. Please refer to [1]. We trained AVOD to detect cars on the KITTI training set. The AVOD model was trained for 120,000 iterations and was then evaluated on the validation set. The evaluation metrics, 3D AP and AHS at 0.7 IoU were calculated for every 1,000 checkpoints. 
-We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,000 and the results obtained in: https://arxiv.org/abs/1712.02294 (Standard) were comparable. Checkpoint 83,000 was thus selected for all our analysis of the performance of AVOD on the CADCD. Ensure that your training results are comparable to Standard if you training on KITTI. 
+We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,000 and the results obtained in: https://arxiv.org/abs/1712.02294 (Standard) were comparable. Checkpoint 83,000 was thus selected for all our analysis of the performance of AVOD on the CADCD. Ensure that your training results are comparable to Standard if you are training on KITTI. 
 
 # Evaluation of AVOD on CADCD (+ tips to run evaluation on other datasets)
 
@@ -17,32 +17,24 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 
 **Before proceeding, please ensure that you have read through the list of files that were changed. Replace the files in your AVOD repo which you acquired from [1] using the modified files/new files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for other datasets.**
 
-### List of files that were modified/added from/to the original AVOD repo [1]:
+### List of files that were modified from/added to the original AVOD repo [1]:
 
 #### 1: scripts/preprocessing/gen_mini_batches.py
  Ensure that 'process_ppl = True ' is set to False.
-#### 2: avod/builders/dataset_builders 
-- Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset (or whatever you call your dataset class'
-- Modify 'KITTI_VAL = KittiDatasetConfig' (refer to the script in this repo for the changes)
+#### 2: avod/builders/dataset_builders.py 
+- Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset [see 4] (or whatever you call your dataset class)'
+- Modify 'KITTI_VAL = KittiDatasetConfig' 
 - Ensure that '@staticmethod points to your dataset e.g: @staticmethod
     def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset:
 - Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
 - Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
 
-#### 3: avod/experiments/moose_run_evaluation.py (no changes/nothing new added)
-
-#### 3: avod.builders config_builder no change
-
-#### 3: from avod.core.models.avod_model import AvodModel no change rpn no change
-
-#### 3: from avod.core.evaluator import Evaluator
-
 #### 3: avod/core/evaluator_utils.py
 - Remove 'from wavedata.tools.core import calib_utils' (This is important as you do not want to call the wrong calibration)
-- Import your own calibration file : e.g from wavedata.tools.core import moose_load_calibration
+- Import your own calibration file : e.g from wavedata.tools.core import moose_load_calibration [see 5]
 - Ensure that stereo_calib_p2 is your camera_matrix (CAM to IMG)
 
-Note that we refined stereo_calib_p2 in the script itself. It will be better to define p2 in your own calibration file (e.g moose_load_calibration) and import p2 whenever you need it instead of defining it everywhere.
+Note that we refined stereo_calib_p2 in the script itself. It will be better to define p2 in your own calibration file (e.g moose_load_calibration) and import p2 whenever you need it instead of defining it everywhere. We have yet to do that.
 
 #### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py***
 This is a new class for the CADCD dataset (create similar file for your own dataset)
@@ -50,36 +42,36 @@ This is a new class for the CADCD dataset (create similar file for your own data
 - Definition of transformation matrix from camera to img frame: stereo_calib_p2
 - get_point_cloud function that gets the lidar point cloud
 
-Note: Compare what changes were made with avod/datasets/kitti/kitti_dataset.py
+Note: This file was modified using avod/datasets/kitti/kitti_dataset.py
 
 #### 5: Create calibration file for your dataset: wavedata/tools/core/moose_load_calibration.py 
 
 This file was acquired from the CADCD devkit (https://github.com/wavelab/cadcd_devkit : load_calibration.py) 
-We call the file moose_load_calibration.py
+We call the file moose_load_calibration.py. Make a similar file for other datasets.
 
 #### 6: wavedata/tools/obj_detection/obj_utils
 - import wavedata/tools/core/calib_utils.py (note we normally do not import this, see 8.)
-- import your own calibration file
-- import wavedata/tools/core/depth_map_utils.py (we create this, see 7.)
+- import your own calibration file (e.g wavedata/tools/core/moose_load_calibration.py)
+- import wavedata/tools/core/depth_map_utils.py (we create this, see 7., it's mainly for 3D visualization purposes, not needed otherwise)
 - change read_labels to suit the way your labels are named e.g (label_dir + "/" +"%010d.txt" % img_idx) instead of 
 (label_dir + "/%06d.txt" % img_idx)
 - define get_depth_map_point_cloud
 - change get_road_planes to load ground planes that you created for your own dataset
 
 #### 7: wavedata/tools/core/depth_map_utils.py
-This was from jason's scene_vis repo (not AVOD public). Enjoy. 
+This was from AVOD's development repo (not public). Enjoy. 
 
 #### 8: wavedata/tools/core/calib_utils.py
 -Add project_pc_to_image (from AVOD's development repo (not public). Enjoy.)
 
-Note: We normally do not import calib_utils (as it works for the KITTI dataset and not the CADCD). However, the exception is, we import calib_utils in obj_utils.py as we want the get_stereo_calibration and project_to_image functions to create 3D visualizations of our predictions.
+Note: We normally do not import calib_utils (as it works for the KITTI dataset and not the CADCD). However, the exception is we import calib_utils in obj_utils.py as we want the get_stereo_calibration and project_to_image functions to create 3D visualizations of our predictions. If you do not want 3D visualizations, this can be ignored.
 
 #### 9: avod/datasets/kitti/kitti_utils.py 
 - import your calibration file
 - import opencv
-- define a new get_point_cloud function (removed/commented out the original)
+- define a new get_point_cloud function (remove/comment out the original)
 
-#### 10: avod/demos/dataset/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo etc).
+#### 10: avod/demos/dataset/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason) etc).
 
 We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 - import wavedata.tools.visualization import vis_utils (see 11.)
@@ -94,11 +86,10 @@ We have tried to ensure, that you do not have to track things down all over the 
 - Add a new class ToggleActorsInteractorStyle
 
 #### 12: wavedata/wavedata/tools/visualization 
-We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo. We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
+We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason). We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 
 ### 13: avod/demos/dataset/moose_show_predictions_2d.py 
-- modified /avod/demos/dataset/show_predictions_2d
-- removed original calibration (for KITTI)
+- remove original calibration (for KITTI)
 - import wavedata/tools/core/moose_load_calibration.py or your own calibration 
 - change 'global_step' to the checkpoint used for evaluation
 - change 'checkpoint_name' to reflect the config file that was used
@@ -111,9 +102,13 @@ We have many new files that aren't in the original repo [1]. These come from pla
 
 ### 15: Others
 - Ensure that scripts/offline_eval/save_kitti_predictions.py have the correct checkpoint name
-
-
-
+- When you run the evaluation (See Run Evaluator below), you will get ouput files : avod/data/outputs/pyramid_cars_with_aug_example/predictions. Go to predictions/kitti_native_eval. The following files need to be changed:
+	- evaluate_object_3d_offline.cpp: `sprintf(file_name,"%010d.txt",indices.at(i));` Ensure that you have the right format to read the ground truth (gt   = loadGroundtruth(gt_dir + "/" + file_name,gt_success);)	
+	-evaluate_object_3d_offline.cpp : same changes as above
+	- run_eval.sh : Ensure that it is pointing to the correct annotation folder (e.g ./evaluate_object_3d_offline /media/wavelab/d3cd89ab-7705-4996-94f3-01da25ba8f50/moosey/training/annotation/ $2/$3 | tee -a ./$4_results_$2.txt)
+	-run_eval_05_iou.sh (same as above)
+-Make changes to your config file (see `Evaluation configuration below`)
+	
 
 
 
@@ -169,12 +164,13 @@ To start evaluation, run the following:
 ```bash
 python avod/experiments/run_evaluation.py --pipeline_config=avod/configs/pyramid_cars_with_aug_example.config --device='0' --data_split='val'
 ```
+Stop as soon as it starts to run, as some files will be changed and those need to be modified before you can get AP scores for your dataset. Please refer to `List of files that were modified from/added to the original AVOD repo [1]` above. See .15 Others.
 
 Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
 
 
 ### Viewing Results
-All results should be saved in `avod/data/outputs`. Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run `demos/moose_show_predictions_2d.py`. 
+All results should be saved in `avod/data/outputs`. Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run `demos/moose_show_predictions_2d.py`, `demos/moose_show_predictions_3d.py` . 
 
 
 ## LICENSE
