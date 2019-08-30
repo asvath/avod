@@ -1,5 +1,5 @@
 
-# Evaluation of Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (+ tips to run evaluation on your own dataset)
+# Evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (+ tips to run evaluation on your own dataset)
 
 # Aggregate View Object Detection
 [1]: https://travis-ci.com/kujason/avod
