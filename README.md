@@ -22,7 +22,7 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 #### 1: scripts/preprocessing/gen_mini_batches.py
  Ensure that 'process_ppl = True ' is set to False.
 #### 2: avod/builders/dataset_builders.py 
-- Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset [see 4] (or whatever you call your dataset class)'
+- Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset' [see 4] (or whatever you call your dataset class)
 - Modify 'KITTI_VAL = KittiDatasetConfig' 
 - Ensure that @staticmethod points to your dataset e.g: @staticmethod
     def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset
