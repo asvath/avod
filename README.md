@@ -36,9 +36,9 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 
 Note that we refined stereo_calib_p2 in the script itself. It will be better to define p2 in your own calibration file (e.g moose_load_calibration) and import p2 whenever you need it instead of defining it everywhere. We have yet to do that.
 
-#### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py***
+#### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py
 This is a new class for the CADCD dataset (create similar file for your own dataset)
-- Includes directory setup info (see set_up_directories)
+- Includes directory setup info 
 - Definition of transformation matrix from camera to img frame: stereo_calib_p2
 - get_point_cloud function that gets the lidar point cloud
 
