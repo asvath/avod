@@ -1,68 +1,15 @@
 
-# Evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (+ tips to run evaluation on your own dataset)
+# Evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset(CADCD) (+ tips to run evaluation on your own dataset)
 
-# Aggregate View Object Detection
-[1]: https://travis-ci.com/kujason/avod
-[![Build Status](https://travis-ci.com/kujason/avod.svg?token=q1CfB5VfAVvKxUyudP69&branch=master)][1]
+This respository contains scripts that enables the evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (CADCD). It is not recommended to train AVOD using this respository. The public release of AVOD can be acquired at : https://github.com/kujason/avod 
 
-This repository contains the public release of the Python implementation of our Aggregate View Object Detection (AVOD) network for 3D object detection.
+# Training of AVOD
+Training of AVOD was done on the KITTI dataset. Please refer to : https://github.com/kujason/avod 
+we trained AVOD to detect cars on the KITTI training set. The AVOD model was trained for 120,000 iterations and was then evaluated on the validation set. The evaluation metrics, 3D AP and AHS at 0.7 IoU were calculated for every 1,000 checkpoints.
+We obtained the best scores at checkpoint 83,000. Table 1. shows our evaluationresults (Ours) for the ‘Easy’, ‘Moderate’ and ‘Hard’ car categories at checkpoint 83,000 and the results obtained in: https://arxiv.org/abs/1712.02294 (Standard). Both the results are comparable. Checkpoint 83,000 was thus selected for all our analysis of the performance of AVOD on the CADCD.
 
-[**Joint 3D Proposal Generation and Object Detection from View Aggregation**](https://arxiv.org/abs/1712.02294)
+TABLE 1
 
-[Jason Ku](https://github.com/kujason), [Melissa Mozifian](https://melfm.github.io/), [Jungwook Lee](https://github.com/jungwook-lee), [Ali Harakeh](https://www.aharakeh.com/), [Steven L. Waslander](https://scholar.google.ca/citations?user=CwgGTXMAAAAJ)
-
-If you use this code, please cite our paper:
-```
-@article{ku2018joint, 
-  title={Joint 3D Proposal Generation and Object Detection from View Aggregation}, 
-  author={Ku, Jason and Mozifian, Melissa and Lee, Jungwook and Harakeh, Ali and Waslander, Steven}, 
-  journal={IROS}, 
-  year={2018}
-}
-```
-
-### Videos
-These videos show detections on several KITTI sequences and our own data in snowy and night driving conditions (with no additional training data).
-
-#### AVOD Detections
-[![here](https://img.youtube.com/vi/Q1f-s6_yHtw/mqdefault.jpg)](https://youtu.be/Q1f-s6_yHtw)
-
-#### AVOD-FPN Detections
-[![here](https://img.youtube.com/vi/mDaqKICiHyA/mqdefault.jpg)](https://youtu.be/mDaqKICiHyA)
-
-
-### KITTI Object Detection Results (3D and BEV)
-|              |             |   |           |        AP-3D |           |   |           |       AP-BEV |           |
-|:------------:|:-----------:|---|:---------:|:------------:|:---------:|---|:---------:|:------------:|:---------:|
-|   **Method** | **Runtime** |   |  **Easy** | **Moderate** |  **Hard** |   |  **Easy** | **Moderate** |  **Hard** |
-|        *Car* |             |   |           |              |           |   |           |              |           |
-|         MV3D |      0.36   |   |   71.09   |      62.35   |   55.12   |   |   86.02   |      76.90   |   68.49   |
-|     VoxelNet |      0.23   |   |   77.47   |      65.11   |   57.73   |   | **89.35** |      79.26   |   77.39   |
-|   F-PointNet |      0.17   |   |   81.20   |      70.39   |   62.19   |   |   88.70   |      84.00   |   75.33   |
-|         AVOD |    **0.08** |   |   73.59   |      65.78   |   58.38   |   |   86.80   |    **85.44** |   77.73   |
-|     AVOD-FPN |      0.10   |   | **81.94** |    **71.88** | **66.38** |   |   88.53   |      83.79   | **77.90** |
-|              |             |   |           |              |           |   |           |              |           |
-| *Pedestrian* |             |   |           |              |           |   |           |              |           |
-|     VoxelNet |      0.23   |   |   39.48   |      33.69   |   31.51   |   |   46.13   |      40.74   |   38.11   |
-|   F-PointNet |      0.17   |   | **51.21** |    **44.89** |   40.23   |   |   58.09   |      50.22   |   47.20   |
-|         AVOD |    **0.08** |   |   38.28   |      31.51   |   26.98   |   |   42.52   |      35.24   |   33.97   |
-|     AVOD-FPN |      0.10   |   |   50.80   |      42.81   | **40.88** |   | **58.75** |    **51.05** | **47.54** |
-|              |             |   |           |              |           |   |           |              |           |
-|    *Cyclist* |             |   |           |              |           |   |           |              |           |
-|     VoxelNet |      0.23   |   |   61.22   |      48.36   |   44.37   |   |   66.70   |      54.76   |   50.55   |
-|   F-PointNet |      0.17   |   | **71.96** |    **56.77** | **50.39** |   | **75.38** |    **61.96** | **54.68** |
-|         AVOD |    **0.08** |   |   60.11   |      44.90   |   38.80   |   |   63.66   |      47.74   |   46.55   |
-|     AVOD-FPN |      0.10   |   |   64.00   |      52.18   |   46.61   |   |   68.09   |      57.48   |   50.77   |
-
-Table: Comparison of results with other published methods on the KITTI [3D Object](http://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d) and [BEV](http://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=bev) benchmarks (accessed Apr 11, 2018).
-
-### Additional Links
-
-#### AVOD-SSD
-There is a single stage version of AVOD available [here](https://github.com/melfm/avod-ssd)
-
-#### Average Heading Similarity (AHS) Native Evaluation
-See [here](https://github.com/asharakeh/kitti_native_evaluation) for more information on the modified KITTI native evaluation script.
 
 ## Getting Started
 Implemented and tested on Ubuntu 16.04 with Python 3.5 and Tensorflow 1.3.0.
