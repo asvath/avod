@@ -21,26 +21,26 @@ To utilize the files in this repo, we recommend the following folder structure:
 	
 	moosey/
 	└── training/
-		└──annotation
-		│   └──0000000[0-7]00.txt
-		│
-		└──calibmoose
-		│   	└── F.yaml, B.yaml etc
-	    	│
-	    	└──image/
-		│   └── 0000000[0-7]00.png
-	    	│       
-	    	└──lidar_points/
-	    	│	└── data/
-		│	    └── 0000000001.png
-		└── lidar_points/
-		│	└── data/
-		│	│	└── 0000000000.bin
-	     	│	└── timestamps.txt
-		│			
-		└── planes
-			└──0000000[0-7]00.txt
-	
+	│	└──annotation
+	│	│   └──0000000[0-7]00.txt
+	│	│
+	│	└──calibmoose
+	│	│   	└── F.yaml, B.yaml etc
+	│    	│
+	│    	└──image/
+	│	│   └── 0000000[0-7]00.png
+	│    	│       
+	│    	└──lidar_points/
+	│    	│	└── data/
+	│	│	    └── 0000000001.png
+	│	└── lidar_points/
+	│	│	└── data/
+	│	│	│	└── 0000000000.bin
+	│     	│	└── timestamps.txt
+	│	│			
+	│	└── planes
+	│		└──0000000[0-7]00.txt
+	└──val.txt
 
 ### Mini-batch Generation
 The training data needs to be pre-processed to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_[class].config`. You also need to select the *class* you want to train on. Inside the `scripts/preprocessing/gen_mini_batches.py` select the classes to process. By default it processes the *Car* and *People* classes, where the flag `process_[class]` is set to True. The People class includes both Pedestrian and Cyclists. You can also generate mini-batches for a single class such as *Pedestrian* only.
