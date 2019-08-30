@@ -31,7 +31,47 @@ TABLE 1
 - Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
 - Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
 
-#### 3: 
+#### 3: avod/experiments/moose_run_evaluation.py (no changes/nothing new added)
+
+### 3: avod.builders config_builder no change
+
+### 3: from avod.core.models.avod_model import AvodModel no change rpn no change
+
+### 3: from avod.core.evaluator import Evaluator
+
+### 3: avod/core/evaluator_utils.py
+- Remove 'from wavedata.tools.core import calib_utils' (This is important as you do not want to call the wrong calibration)
+- Import your own calibration file : e.g from wavedata.tools.core import moose_load_calibration
+- Ensure that stereo_calib_p2 is your camera_matrix (CAM to IMG)
+
+Note that we refined stereo_calib_p2 in the script itself. It will be better to define p2 in your own calibration file (e.g moose_load_calibration) and import p2 whenever you need it instead of defining it everywhere.
+
+### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py
+This is a new class for the CADCD dataset (create similar file for your own dataset)
+- Includes directory setup info (see set_up_directories)
+- Definition of transformation matrix from camera to img frame: stereo_calib_p2
+- get_point_cloud function that gets the lidar point cloud
+
+Note: Compare what changes were made with avod/datasets/kitti/kitti_dataset.py
+
+### 5: Create calibration file for your dataset: wavedata/tools/core/moose_load_calibration.py *** 
+
+This file was acquired from the CADCD devkit (https://github.com/wavelab/cadcd_devkit : load_calibration.py) 
+We call the file moose_load_calibration.py
+
+### 6: wavedata/tools/obj_detection/obj_utils
+- import your own calibration file
+- import depth_map_utils (we create this)
+- change read_labels to suit the way your labels are named e.g (label_dir + "/" +"%010d.txt" % img_idx) instead of 
+(label_dir + "/%06d.txt" % img_idx)
+- define get_depth_map_point_cloud
+- change get_road_planes to load ground planes that you created for your own dataset
+
+### 7: wavedata/tools/core/depth_map_utils.py
+
+
+
+
 
 Recommended folder structure: 
 
