@@ -113,7 +113,7 @@ This is run to create depth maps for 3D visualization purposes
 
 
 
-Recommended folder structure: 
+### Recommended folder structure: 
 
 ### Folder structure for CADCD
 To utilize the files in this repo, we recommend the following folder structure for your dataset:
