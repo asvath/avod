@@ -103,9 +103,9 @@ We have many new files that aren't in the original repo [1]. These come from pla
 This is run to create depth maps for 3D visualization purposes
 ### 15: Others
 - Ensure that scripts/offline_eval/save_kitti_predictions.py have the correct checkpoint name
-- When you run the evaluation (See Run Evaluator below), you will get ouput files : avod/data/outputs/pyramid_cars_with_aug_example/predictions. Go to predictions/kitti_native_eval. The following files need to be changed:
+- When you run the evaluation (See `Run Evaluator` below), you will get ouput files : avod/data/outputs/pyramid_cars_with_aug_example/predictions. Go to predictions/kitti_native_eval. The following files need to be changed:
 	- evaluate_object_3d_offline.cpp: `sprintf(file_name,"%010d.txt",indices.at(i));` Ensure that you have the right format to read the ground truth (gt   = loadGroundtruth(gt_dir + "/" + file_name,gt_success);)	
-	-evaluate_object_3d_offline.cpp : same changes as above
+	- evaluate_object_3d_offline.cpp : same changes as above
 	- run_eval.sh : Ensure that it is pointing to the correct annotation folder (e.g ./evaluate_object_3d_offline /media/wavelab/d3cd89ab-7705-4996-94f3-01da25ba8f50/moosey/training/annotation/ $2/$3 | tee -a ./$4_results_$2.txt)
 	- run_eval_05_iou.sh (same as above)
 	- Make changes to your config file (see `Evaluation configuration below`)
