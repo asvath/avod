@@ -9,6 +9,8 @@ from wavedata.tools.obj_detection import obj_utils
 from avod.builders import bev_generator_builder
 from avod.core.label_cluster_utils import LabelClusterUtils
 from avod.core.mini_batch_utils import MiniBatchUtils
+from wavedata.tools.core import moose_load_calibration
+import cv2
 
 
 class KittiUtils(object):
@@ -132,6 +134,261 @@ class KittiUtils(object):
                                                               sample_name)
         return anchors_info
 
+
+
+    def get_point_cloud(self, source, img_idx, image_shape=None):
+
+        calib = moose_load_calibration.load_calibration(self.dataset.calib_dir)
+
+        def lidar_to_camera(lidar_path, img_idx):  # lidar to front camera
+            scan_data = np.fromfile(lidar_path, dtype=np.float32)  # numpy from file reads binary file
+            lidar = scan_data.reshape((-1, 4))
+
+            [rows,cols] = lidar.shape;  # rows and cols of the lidar points, rows = number of lidar points, columns (4 = x , y, z , intensity)
+
+            # 0: front , 1: front right, 2: right front, 3: back right, 4: back, 5: left back, 6: left front, 7: front left
+
+            point_cloud_cam = np.zeros([lidar.shape[0], lidar.shape[1]])
+
+            if img_idx < 100:
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM00']));
+
+
+            elif (img_idx >= 100 and img_idx < 200):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM01']));
+
+
+            elif (img_idx >= 200 and img_idx < 300):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM02']));
+
+            elif (img_idx >=300 and img_idx < 400):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM03']));
+
+            elif (img_idx >= 400 and img_idx < 500):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM04']));
+
+            elif (img_idx >= 500 and img_idx < 600):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM05']));
+
+            elif (img_idx >= 600 and img_idx < 700):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM06']));
+
+            elif (img_idx >= 700 and img_idx < 800):
+                T_CAM_LIDAR = np.linalg.inv(np.array(calib['extrinsics']['T_LIDAR_CAM07']));
+
+            else:
+
+                T_CAM_LIDAR = "uououoolo"
+
+            for i in range(rows):
+                point_cloud_cam[i] = np.matmul(T_CAM_LIDAR, lidar[i])
+
+            return point_cloud_cam
+
+        if source == "lidar":
+            # wavedata wants im_size in (w, h) order
+            min_intensity = None
+
+            im_size = [image_shape[1], image_shape[0]]
+
+            if img_idx < 100:
+                lidar_idx = img_idx
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+
+
+            elif (img_idx >= 100 and img_idx < 200):
+                lidar_idx = img_idx - 100
+                lidar_path = self.dataset.velo_dir   + format(lidar_idx, '010') + ".bin"
+
+
+            elif (img_idx >= 200 and img_idx < 300):
+                lidar_idx = img_idx - 200
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+
+            elif (img_idx >= 300 and img_idx < 400):
+                lidar_idx = img_idx - 300
+                lidar_path = self.dataset.velo_dir + format(lidar_idx, '010') + ".bin"
+
+            elif (img_idx >= 400 and img_idx < 500):
+                lidar_idx = img_idx - 400
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+
+            elif (img_idx >= 500 and img_idx < 600):
+                lidar_idx = img_idx - 500
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+
+            elif (img_idx >= 600 and img_idx < 700):
+                lidar_idx = img_idx - 600
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+
+            elif (img_idx >= 700 and img_idx < 800):
+                lidar_idx = img_idx - 700
+                lidar_path = self.dataset.velo_dir  + format(lidar_idx, '010') + ".bin"
+            else:
+                lidar_path = img_idx
+
+
+
+
+
+            pts = lidar_to_camera(lidar_path,img_idx)
+
+            # The given image is assumed to be a 2D image
+            if not im_size:
+
+                return pts[:, 0:3].T
+
+
+
+
+
+
+            else:
+
+
+                # Only keep points in front of camera (positive z)
+                pts = pts[pts[:, 2] > 0]
+
+                if img_idx < 100:
+
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM00']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+
+                elif (img_idx >= 100 and img_idx < 200):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM01']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+
+                elif (img_idx >= 200 and img_idx < 300):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM02']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+
+                elif (img_idx >= 300 and img_idx < 400):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM03']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+
+                elif (img_idx >= 400 and img_idx < 500):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM04']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+
+                elif (img_idx >= 500 and img_idx < 600):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM05']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+                elif (img_idx >= 600 and img_idx < 700):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM06']['camera_matrix']['data']).reshape(-1,3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+                elif (img_idx >= 700 and img_idx < 800):
+                    T_IMG_CAM = np.eye(4);  # identity matrix
+                    T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM07']['camera_matrix']['data']).reshape(-1,
+                                                                                                    3)  # camera to image #intrinsic matrix
+
+                    # T_IMG_CAM : 4 x 4 matrix
+                    T_IMG_CAM = T_IMG_CAM[0:3,0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+
+                else:
+                    T_IMG_CAM = "yolo"
+
+
+
+                point_in_im = np.zeros([pts.shape[0], 2])
+                for i in range(len(pts)):
+
+
+                    a = np.matmul(T_IMG_CAM, pts[i])
+
+                    point_in_im[i] = [a[0] / a[2], a[1] / a[2]]
+
+                # Project points onto image
+
+                # Project to image frame
+
+                # Filter based on the given image size
+                image_filter = (point_in_im[:, 0] > 0) & \
+                               (point_in_im[:, 0] < im_size[0]) & \
+                               (point_in_im[:, 1] > 0) & \
+                               (point_in_im[:, 1] < im_size[1])
+
+            if not min_intensity:
+
+                return pts[image_filter][:, 0:3].T
+
+            else:
+                intensity_filter = i > min_intensity
+                point_filter = np.logical_and(image_filter, intensity_filter)
+                return pts[point_filter][:, 0:3].T
+
+
+        elif source == "depth":
+            # wavedata wants im_size in (w, h) order
+            im_size = [image_shape[1], image_shape[0]]
+
+
+
+            point_cloud = obj_utils.get_depth_map_point_cloud(img_idx, self.dataset.calib_dir, self.dataset.depth_dir,im_size=im_size)
+
+            return point_cloud
+
+
+        else:
+            raise ValueError("Invalid source {}".format(source))
+
+            #img = cv2.imread(self.img_path)
+
+            #cv2.imshow('image', img)
+            #image_shape = img.shape[:2]
+
+
+        def flush(self):
+            pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+    '''
+
     def get_point_cloud(self, source, img_idx, image_shape=None):
         """ Gets the points from the point cloud for a particular image,
             keeping only the points within the area extents, and takes a slice
@@ -139,7 +396,7 @@ class KittiUtils(object):
             the ground plane
 
         Args:
-            source: point cloud source, e.g. 'lidar'
+            source: point cloud source - 'stereo', 'lidar', or 'depth'
             img_idx: An integer sample image index, e.g. 123 or 500
             image_shape: image dimensions (h, w), only required when
                 source is 'lidar' or 'depth'
@@ -148,7 +405,11 @@ class KittiUtils(object):
             The set of points in the shape (N, 3)
         """
 
-        if source == 'lidar':
+        if source == "stereo":
+            point_cloud = obj_utils.get_stereo_point_cloud(
+                img_idx, self.dataset.calib_dir, self.dataset.disp_dir)
+
+        elif source == "lidar":
             # wavedata wants im_size in (w, h) order
             im_size = [image_shape[1], image_shape[0]]
 
@@ -156,11 +417,20 @@ class KittiUtils(object):
                 img_idx, self.dataset.calib_dir, self.dataset.velo_dir,
                 im_size=im_size)
 
+        elif source == "depth":
+            # wavedata wants im_size in (w, h) order
+            im_size = [image_shape[1], image_shape[0]]
+
+            point_cloud = obj_utils.get_depth_map_point_cloud(
+                img_idx, self.dataset.calib_dir, self.dataset.depth_dir,
+                im_size=im_size)
+
         else:
             raise ValueError("Invalid source {}".format(source))
 
         return point_cloud
 
+    '''
     def get_ground_plane(self, sample_name):
         """Reads the ground plane for the sample
 
@@ -232,7 +502,7 @@ class KittiUtils(object):
 
         Args:
             sample_name: image name to generate stereo pointcloud from
-            source: point cloud source, e.g. 'lidar'
+            source: point cloud source - 'stereo', 'lidar', or 'depth'
             image_shape: image dimensions [h, w], only required when
                 source is 'lidar' or 'depth'
 
@@ -257,7 +527,7 @@ class KittiUtils(object):
         return voxel_grid_2d
 
     def create_voxel_grid_3d(self, sample_name, ground_plane,
-                             source='lidar',
+                             source='stereo',
                              filter_type='slice'):
         """Generates a filtered voxel grid from stereo data
 
