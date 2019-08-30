@@ -8,11 +8,12 @@ import os
 from PIL import Image
 import tensorflow as tf
 
-from wavedata.tools.core import calib_utils
+#from wavedata.tools.core import calib_utils
 
 import avod
 from avod.core import box_3d_projector
 from avod.core import summary_utils
+from wavedata.tools.core import moose_load_calibration
 
 
 def save_predictions_in_kitti_format(model,
@@ -31,6 +32,7 @@ def save_predictions_in_kitti_format(model,
     # Get available prediction folders
     predictions_root_dir = avod.root_dir() + '/data/outputs/' + \
         checkpoint_name + '/predictions'
+
 
     final_predictions_root_dir = predictions_root_dir + \
         '/final_predictions_and_scores/' + dataset.data_split
@@ -103,8 +105,95 @@ def save_predictions_in_kitti_format(model,
         # Load image for truncation
         image = Image.open(dataset.get_rgb_image_path(sample_name))
 
-        stereo_calib_p2 = calib_utils.read_calibration(dataset.calib_dir,
-                                                       img_idx).p2
+        #stereo_calib_p2 = calib_utils.read_calibration(dataset.calib_dir,
+                                                       #img_idx).p2
+
+        # Get calibration
+        calib = moose_load_calibration.load_calibration(dataset.calib_dir)
+
+        if img_idx < 100:
+
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM00']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 100 and img_idx < 200):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM01']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 200 and img_idx < 300):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM02']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 300 and img_idx < 400):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM03']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 400 and img_idx < 500):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM04']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 500 and img_idx < 600):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM05']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 600 and img_idx < 700):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM06']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        elif (img_idx >= 700 and img_idx < 800):
+            T_IMG_CAM = np.eye(4);  # identity matrix
+            T_IMG_CAM[0:3, 0:3] = np.array(calib['CAM07']['camera_matrix']['data']).reshape(-1,
+                                                                                            3)  # camera to image #intrinsic matrix
+
+            # T_IMG_CAM : 4 x 4 matrix
+            T_IMG_CAM = T_IMG_CAM[0:3, 0:4];  # remove last row, #choose the first 3 rows and get rid of the last column
+
+            stereo_calib_p2 = T_IMG_CAM
+
+        else:
+            print("YOLO")
 
         boxes = []
         image_filter = []
