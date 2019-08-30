@@ -20,9 +20,18 @@ TABLE 1
 **Before proceeding, please ensure that you have read the list of files that were changed and make the same changes to your AVOD repo before proceeding to evaluate AVOD on CADCD or your own dataset.**
 
 ### List of files that were modified/added from/to the original AVOD repo [1]:
+
 #### 1: scripts/preprocessing/gen_mini_batches.py
  Ensure that 'process_ppl = True ' is set to False.
 #### 2: avod/builders/dataset_builders 
+- Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset (or whatever you call your dataset class'
+- Modify 'KITTI_VAL = KittiDatasetConfig' (refer to the script in this repo for the changes)
+-Ensure that '@staticmethod points to your dataset e.g: @staticmethod
+    def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset:
+-Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
+-Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
+
+#### 3: 
 
 Recommended folder structure: 
 
