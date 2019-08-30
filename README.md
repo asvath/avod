@@ -62,7 +62,7 @@ We call the file moose_load_calibration.py. Make a similar file for other datase
 This was from AVOD's development repo (not public). Enjoy. 
 
 #### 8: wavedata/tools/core/calib_utils.py
--Add project_pc_to_image (from AVOD's development repo (not public). Enjoy.)
+- project_pc_to_image function was added (from AVOD's development repo (not public). Enjoy.)
 
 Note: We normally do not import calib_utils (as it works for the KITTI dataset and not the CADCD). However, the exception is we import calib_utils in obj_utils.py as we want the get_stereo_calibration and project_to_image functions to create 3D visualizations of our predictions. If you do not want 3D visualizations, this can be ignored.
 
