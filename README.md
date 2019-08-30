@@ -19,8 +19,10 @@ TABLE 1
 
 **Before proceeding, please ensure that you have read the list of files that were changed and make the same changes to your AVOD repo before proceeding to evaluate AVOD on CADCD or your own dataset.**
 
-### List of files that were modified from the original AVOD repo [1]:
-
+### List of files that were modified/added from/to the original AVOD repo [1]:
+- scripts/preprocessing/gen_mini_batches.py
+: ensure that 'process_ppl = True ' is set to False.
+- avod/builders/dataset_builders 
 
 Recommended folder structure: 
 
@@ -51,11 +53,11 @@ To utilize the files in this repo, we recommend the following folder structure f
 	└──val.txt
 
 ### Mini-batch Generation
-We need to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_cars.config`. Ensure that your dataset_dir points to the correct dataset that you want to evaluate on (e.g /home/moosey). Inside the `scripts/preprocessing/moose_gen_mini_batches.py`, notice that the *cars* class is selected for processing (`process_car`) is set to True. 
+We need to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_cars.config`. Ensure that your dataset_dir points to the correct dataset that you want to evaluate on (e.g /home/moosey). Inside the `scripts/preprocessing/gen_mini_batches.py`, notice that the *cars* class is selected for processing (`process_car`) is set to True. 
 
 ```bash
 cd avod
-python scripts/preprocessing/moose_gen_mini_batches.py
+python scripts/preprocessing/gen_mini_batches.py
 ```
 
 Once this script is done, you should now have the following folders inside `avod/data`:
