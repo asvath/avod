@@ -95,11 +95,12 @@ We have many new files that aren't in the original repo [1]. These come from pla
 - change 'checkpoint_name' to reflect the config file that was used
 - calib_p2 was defined differently than the orig file
 
-### 14: scripts/save_depth_maps.py 
+### 14: scripts/preprocessing/save_depth_maps.py 
  - You need to ensure that Jason's IP basic repo is located in your AVOD repo
  - import ip_basic
  - from ip_basic.ip_basic import ip_depth_map_utils
 
+This is run to create depth maps for 3D visualization purposes
 ### 15: Others
 - Ensure that scripts/offline_eval/save_kitti_predictions.py have the correct checkpoint name
 - When you run the evaluation (See Run Evaluator below), you will get ouput files : avod/data/outputs/pyramid_cars_with_aug_example/predictions. Go to predictions/kitti_native_eval. The following files need to be changed:
