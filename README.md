@@ -24,8 +24,8 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 #### 2: avod/builders/dataset_builders.py 
 - Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset [see 4] (or whatever you call your dataset class)'
 - Modify 'KITTI_VAL = KittiDatasetConfig' 
-- Ensure that '@staticmethod points to your dataset e.g: @staticmethod
-    def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset:
+- Ensure that @staticmethod points to your dataset e.g: @staticmethod
+    def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset
 - Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
 - Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
 
