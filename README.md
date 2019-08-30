@@ -26,10 +26,10 @@ TABLE 1
 #### 2: avod/builders/dataset_builders 
 - Change 'from avod.datasets.kitti.kitti_dataset import KittiDataset' to 'from avod.datasets.kitti.moose_dataset import MooseDataset (or whatever you call your dataset class'
 - Modify 'KITTI_VAL = KittiDatasetConfig' (refer to the script in this repo for the changes)
--Ensure that '@staticmethod points to your dataset e.g: @staticmethod
+- Ensure that '@staticmethod points to your dataset e.g: @staticmethod
     def build_kitti_dataset(base_cfg,use_defaults=True,new_cfg=None) -> MooseDataset:
--Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
--Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
+- Ensure that @staticmethod returns your dataset e.g MooseDataset(cfg_copy)
+- Change DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI) to DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
 
 #### 3: 
 
