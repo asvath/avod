@@ -107,8 +107,8 @@ This is run to create depth maps for 3D visualization purposes
 	- evaluate_object_3d_offline.cpp: `sprintf(file_name,"%010d.txt",indices.at(i));` Ensure that you have the right format to read the ground truth (gt   = loadGroundtruth(gt_dir + "/" + file_name,gt_success);)	
 	-evaluate_object_3d_offline.cpp : same changes as above
 	- run_eval.sh : Ensure that it is pointing to the correct annotation folder (e.g ./evaluate_object_3d_offline /media/wavelab/d3cd89ab-7705-4996-94f3-01da25ba8f50/moosey/training/annotation/ $2/$3 | tee -a ./$4_results_$2.txt)
-	-run_eval_05_iou.sh (same as above)
--Make changes to your config file (see `Evaluation configuration below`)
+	- run_eval_05_iou.sh (same as above)
+	- Make changes to your config file (see `Evaluation configuration below`)
 	
 
 
