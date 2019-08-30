@@ -25,7 +25,7 @@ TABLE 1
 Recommended folder structure: 
 
 ### Folder structure
-To utilize the files in this repo, we recommend the following folder structure:
+To utilize the files in this repo, we recommend the following folder structure for your dataset:
 	
 	moosey/
 	└── training/
