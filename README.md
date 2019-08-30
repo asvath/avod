@@ -115,7 +115,7 @@ This is run to create depth maps for 3D visualization purposes
 
 Recommended folder structure: 
 
-### Folder structure
+### Folder structure for CADCD
 To utilize the files in this repo, we recommend the following folder structure for your dataset:
 	
 	moosey/
@@ -129,9 +129,6 @@ To utilize the files in this repo, we recommend the following folder structure f
 	│    	└──image/
 	│	│   └── 0000000[0-7]00.png
 	│    	│       
-	│    	└──lidar_points/
-	│    	│	└── data/
-	│	│	    └── 0000000001.png
 	│	└── lidar_points/
 	│	│	└── data/
 	│	│	│	└── 0000000000.bin
@@ -140,6 +137,9 @@ To utilize the files in this repo, we recommend the following folder structure f
 	│	└── planes
 	│		└──0000000[0-7]00.txt
 	└──val.txt
+
+Note that we placed all the frames from all the cameras in the same folder (e.g image). The file names were changed to reflect the camera. e.g CAM 7 : original : 0000000008.png new : 0000000708.png. Same goes for annotation files.
+There were no changes to the lidar points data as all the frames relate to the same lidar files. 
 
 ### Mini-batch Generation
 We need to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_cars.config`. Ensure that your dataset_dir points to the correct dataset that you want to evaluate on (e.g /home/moosey). Inside the `scripts/preprocessing/gen_mini_batches.py`, notice that the *cars* class is selected for processing (`process_car`) is set to True. 
