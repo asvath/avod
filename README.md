@@ -21,11 +21,11 @@ To utilize the files in this repo, we recommend the following folder structure:
 	
 	moosey/
 	└── training/
-    		└──annotation
-    		│   └──0000000[0-7]00.txt
-        	│
-    		└──calibmoose
-   	    	│   	└── F.yaml, B.yaml etc
+		└──annotation
+		│   └──0000000[0-7]00.txt
+		│
+		└──calibmoose
+		│   	└── F.yaml, B.yaml etc
 	    	│
 	    	└──image/
 		│   └── 0000000[0-7]00.png
