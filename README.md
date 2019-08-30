@@ -88,20 +88,20 @@ We have tried to ensure, that you do not have to track things down all over the 
 #### 12: wavedata/wavedata/tools/visualization 
 We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason). We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 
-### 13: avod/demos/dataset/moose_show_predictions_2d.py 
+#### 13: avod/demos/dataset/moose_show_predictions_2d.py 
 - remove original calibration (for KITTI)
 - import wavedata/tools/core/moose_load_calibration.py or your own calibration 
 - change 'global_step' to the checkpoint used for evaluation
 - change 'checkpoint_name' to reflect the config file that was used
 - calib_p2 was defined differently than the orig file
 
-### 14: scripts/preprocessing/save_depth_maps.py 
+#### 14: scripts/preprocessing/save_depth_maps.py 
  - You need to ensure that Jason's IP basic repo is located in your AVOD repo
  - import ip_basic
  - from ip_basic.ip_basic import ip_depth_map_utils
 
 This is run to create depth maps for 3D visualization purposes
-### 15: Others
+#### 15: Others
 - Ensure that scripts/offline_eval/save_kitti_predictions.py have the correct checkpoint name
 - When you run the evaluation (See `Run Evaluator` below), you will get ouput files : avod/data/outputs/pyramid_cars_with_aug_example/predictions. Go to predictions/kitti_native_eval. The following files need to be changed:
 	- evaluate_object_3d_offline.cpp: `sprintf(file_name,"%010d.txt",indices.at(i));` Ensure that you have the right format to read the ground truth (gt   = loadGroundtruth(gt_dir + "/" + file_name,gt_success);)	
@@ -165,7 +165,7 @@ To start evaluation, run the following:
 ```bash
 python avod/experiments/run_evaluation.py --pipeline_config=avod/configs/pyramid_cars_with_aug_example.config --device='0' --data_split='val'
 ```
-Stop as soon as it starts to run, as some files will be generated and those need to be modified before you can get AP scores for your dataset. Please refer to `List of files that were modified from/added to the original AVOD repo [1]` above. See .15 Others.
+Stop as soon as it starts to run, as some files will be generated and those need to be modified before you can get AP scores for your dataset. Please refer to `List of files that were modified from/added to the original AVOD repo [1]` above. See `.15 Others`.
 
 Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
 
