@@ -3,7 +3,9 @@ from copy import deepcopy
 from google.protobuf import text_format
 
 import avod
-from avod.datasets.kitti.kitti_dataset import KittiDataset
+#from avod.datasets.kitti.kitti_dataset import KittiDataset
+from avod.datasets.kitti.moose_dataset import MooseDataset
+
 from avod.protos import kitti_dataset_pb2
 from avod.protos.kitti_dataset_pb2 import KittiDatasetConfig
 
@@ -15,7 +17,7 @@ class DatasetBuilder(object):
 
     KITTI_UNITTEST = KittiDatasetConfig(
         name="unittest-kitti",
-        dataset_dir=avod.root_dir() + "/tests/datasets/Kitti/object",
+        #dataset_dir=avod.root_dir() + "/tests/datasets/Kitti/object",
         data_split="train",
         data_split_dir="training",
         has_labels=True,
@@ -35,11 +37,11 @@ class DatasetBuilder(object):
     )
 
     KITTI_VAL = KittiDatasetConfig(
-        name="kitti",
+        name="moose",
         data_split="val",
         data_split_dir="training",
         has_labels=True,
-        cluster_split="train",
+        cluster_split="val",
         classes=["Car"],
         num_clusters=[2],
     )
@@ -55,7 +57,7 @@ class DatasetBuilder(object):
     )
 
     KITTI_TRAINVAL = KittiDatasetConfig(
-        name="kitti",
+        name="moose",
         data_split="trainval",
         data_split_dir="training",
         has_labels=True,
@@ -74,7 +76,7 @@ class DatasetBuilder(object):
         num_clusters=[2],
     )
     KITTI_VAL_MINI = KittiDatasetConfig(
-        name="kitti",
+        name="moose",
         data_split="val_mini",
         data_split_dir="training",
         has_labels=True,
@@ -150,6 +152,8 @@ class DatasetBuilder(object):
         with open(dataset_config_path, 'r') as f:
             text_format.Merge(f.read(), dataset_config)
 
+
+
         return DatasetBuilder.build_kitti_dataset(dataset_config,
                                                   use_defaults=False)
 
@@ -166,7 +170,7 @@ class DatasetBuilder(object):
     @staticmethod
     def build_kitti_dataset(base_cfg,
                             use_defaults=True,
-                            new_cfg=None) -> KittiDataset:
+                            new_cfg=None) -> MooseDataset:
         """Builds a KittiDataset object using the provided configurations
 
         Args:
@@ -188,11 +192,13 @@ class DatasetBuilder(object):
             # Use new config values if provided
             cfg_copy.MergeFrom(new_cfg)
 
-        return KittiDataset(cfg_copy)
+        return MooseDataset(cfg_copy)
 
 
 def main():
-    DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_TRAIN_MINI)
+    DatasetBuilder.build_kitti_dataset(DatasetBuilder.KITTI_VAL)
+
+
 
 
 if __name__ == '__main__':
