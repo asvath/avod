@@ -17,7 +17,7 @@ TABLE 1
 
 ## Getting Started
 
-**Before proceeding, please ensure that you have read the list of files that were changed and make the same changes to your AVOD repo before proceeding to evaluate AVOD on CADCD or your own dataset.**
+**Before proceeding, please ensure that you have read through the list of files that were changed. Replace the files in your AVOD repo which you acquired from [1] using the modified files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for their own dataset**
 
 ### List of files that were modified/added from/to the original AVOD repo [1]:
 
@@ -69,17 +69,37 @@ We call the file moose_load_calibration.py
 - change get_road_planes to load ground planes that you created for your own dataset
 
 #### 7: wavedata/tools/core/depth_map_utils.py
-This was from AVOD's development repo (not public). Enjoy. 
+This was from jason's scene_vis repo (not AVOD public). Enjoy. 
 
 #### 8: wavedata/tools/core/calib_utils.py
 -Add project_pc_to_image (from AVOD's development repo (not public). Enjoy.)
 
 Note: We normally do not import calib_utils (as it works for the KITTI dataset and not the CADCD). However, the exception is, we import calib_utils in obj_utils.py as we want the get_stereo_calibration and project_to_image functions to create 3D visualizations of our predictions.
 
-#### 9: avod/datasets/kitti/kitti_utils.py ***
+#### 9: avod/datasets/kitti/kitti_utils.py 
 - import your calibration file
 - import opencv
 - define a new get_point_cloud function (removed/commented out the original)
+
+#### 10: avod/demos/dataset/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo etc).
+
+We have tried to ensure, that you do not have to track things down all over the place. (Feel free to go all over the place if you want to see where most of these are coming from)
+- import wavedata.tools.visualization import vis_utils (see 11.)
+
+#### 11: wavedata/wavedata/tools/visualization/vis_utils.py
+
+- Ensure that you are reading in your images correctly : edit this line: img = np.array(Image.open("%s/%010d.png" % (image_dir, index)),dtype=np.uint8)
+- project_img_to_point function was added
+- import vtk
+- import moose_load_calibration/your own calibration file for your dataset
+- import wavedata.tools.core import calib_utils
+- Add a new class ToggleActorsInteractorStyle
+
+#### 12: wavedata/wavedata/tools/visualization 
+We have many new files that aren't in the original repo. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo. We have tried to ensure, that you do not have to track things down all over the place. (Feel free to go all over the place if you want to see where most of these are coming from)
+
+### 13: 
+
 
 
 
