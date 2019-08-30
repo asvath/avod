@@ -21,25 +21,25 @@ To utilize the files in this repo, we recommend the following folder structure:
 	
 	moosey/
 	└── training/
-    	└──annotation
-    	│   └──0000000[0-7]00.txt
-        │
-    	└──calibmoose
-   	    │   └── F.yaml, B.yaml etc
-	    │
-	    └──image/
+    		└──annotation
+    		│   └──0000000[0-7]00.txt
+        	│
+    		└──calibmoose
+   	    	│   	└── F.yaml, B.yaml etc
+	    	│
+	    	└──image/
 		│   └── 0000000[0-7]00.png
-	    │       
-	    └──lidar_points/
-	    │	└── data/
+	    	│       
+	    	└──lidar_points/
+	    	│	└── data/
 		│	    └── 0000000001.png
 		└── lidar_points/
 		│	└── data/
 		│	│	└── 0000000000.bin
-	    │ 	└── timestamps.txt
-    	│			
-	    └── planes
-            └──0000000[0-7]00.txt
+	     	│	└── timestamps.txt
+    		│			
+	    	└── planes
+            		└──0000000[0-7]00.txt
 	
 
 ### Mini-batch Generation
