@@ -73,7 +73,7 @@ Note: We normally do not import calib_utils (as it works for the KITTI dataset a
 - import opencv
 - define a new get_point_cloud function (remove/comment out the original)
 
-#### 10: avod/demos/dataset/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason) etc).
+#### 10: demos/moose_show_predictions_3d.py (making this script this required a lot of tracking down from multiple places like AVOD public repo, Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason) etc).
 
 We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 - import wavedata.tools.visualization import vis_utils (see 11.)
@@ -90,7 +90,7 @@ We have tried to ensure, that you do not have to track things down all over the 
 #### 12: wavedata/wavedata/tools/visualization 
 We have many new files that aren't in the original repo [1]. These come from places such as AVOD's development repo (not open to public), Jason's scene vis repo, Jason's ip basic repo (https://github.com/kujason). We have tried to ensure, that you do not have to track things down all over the place. (Feel free to visit the other repos if you want to see where most of these are coming from)
 
-#### 13: avod/demos/dataset/moose_show_predictions_2d.py 
+#### 13: demos/moose_show_predictions_2d.py 
 - remove original calibration (for KITTI)
 - import wavedata/tools/core/moose_load_calibration.py or your own calibration 
 - change 'global_step' to the checkpoint used for evaluation
@@ -110,7 +110,7 @@ This is run to create depth maps for 3D visualization purposes
 	- evaluate_object_3d_offline.cpp : same changes as above
 	- run_eval.sh : Ensure that it is pointing to the correct annotation folder (e.g ./evaluate_object_3d_offline /media/wavelab/d3cd89ab-7705-4996-94f3-01da25ba8f50/moosey/training/annotation/ $2/$3 | tee -a ./$4_results_$2.txt)
 	- run_eval_05_iou.sh (same as above)
-	- Make changes to your config file (see `Evaluation configuration below`)
+- Make changes to your config file (see `Evaluation configuration below`)
 	
 
 
