@@ -165,7 +165,7 @@ To start evaluation, run the following:
 ```bash
 python avod/experiments/run_evaluation.py --pipeline_config=avod/configs/pyramid_cars_with_aug_example.config --device='0' --data_split='val'
 ```
-Stop as soon as it starts to run, as some files will be changed and those need to be modified before you can get AP scores for your dataset. Please refer to `List of files that were modified from/added to the original AVOD repo [1]` above. See .15 Others.
+Stop as soon as it starts to run, as some files will be generated and those need to be modified before you can get AP scores for your dataset. Please refer to `List of files that were modified from/added to the original AVOD repo [1]` above. See .15 Others.
 
 Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
 
