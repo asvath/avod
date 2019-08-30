@@ -10,74 +10,37 @@ We obtained the best scores at checkpoint 83,000. Table 1. shows our evaluationr
 
 TABLE 1
 
+# Evaluation of AVOD
 
 ## Getting Started
-Implemented and tested on Ubuntu 16.04 with Python 3.5 and Tensorflow 1.3.0.
 
-1. Clone this repo
-```bash
-git clone git@github.com:kujason/avod.git --recurse-submodules
-```
-If you forget to clone the wavedata submodule:
-```bash
-git submodule update --init --recursive
-```
+Recommended folder structure: 
 
-2. Install Python dependencies
-```bash
-cd avod
-pip3 install -r requirements.txt
-pip3 install tensorflow-gpu==1.3.0
-```
-
-3. Add `avod (top level)` and `wavedata` to your PYTHONPATH
-```bash
-# For virtualenvwrapper users
-add2virtualenv .
-add2virtualenv wavedata
-```
-
-```bash
-# For nonvirtualenv users
-export PYTHONPATH=$PYTHONPATH:'/path/to/avod'
-export PYTHONPATH=$PYTHONPATH:'/path/to/avod/wavedata'
-```
-
-4. Compile integral image library in wavedata
-```bash
-sh scripts/install/build_integral_image_lib.bash
-```
-
-5. Avod uses Protobufs to configure model and training parameters. Before the framework can be used, the protos must be compiled (from top level avod folder):
-```bash
-sh avod/protos/run_protoc.sh
-```
-
-Alternatively, you can run the `protoc` command directly:
-```bash
-protoc avod/protos/*.proto --python_out=.
-```
-
-## Training
-### Dataset
-To train on the [Kitti Object Detection Dataset](http://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d):
-- Download the data and place it in your home folder at `~/Kitti/object`
-- Go [here](https://drive.google.com/open?id=1yjCwlSOfAZoPNNqoMtWfEjPCfhRfJB-Z) and download the `train.txt`, `val.txt` and `trainval.txt` splits into `~/Kitti/object`. Also download the `planes` folder into `~/Kitti/object/training`
-
-The folder should look something like the following:
-```
-Kitti
-    object
-        testing
-        training
-            calib
-            image_2
-            label_2
-            planes
-            velodyne
-        train.txt
-        val.txt
-```
+### Folder structure
+To utilize the files in this repo, we recommend the following folder structure:
+	
+	moosey/
+	└── training/
+    	└──annotation
+    	│   └──0000000[0-7]00.txt
+        │
+    	└──calibmoose
+   	    │   └── F.yaml, B.yaml etc
+	    │
+	    └──image/
+		│   └── 0000000[0-7]00.png
+	    │       
+	    └──lidar_points/
+	    │	└── data/
+		│	    └── 0000000001.png
+		└── lidar_points/
+		│	└── data/
+		│	│	└── 0000000000.bin
+	    │ 	└── timestamps.txt
+    	│			
+	    └── planes
+            └──0000000[0-7]00.txt
+	
 
 ### Mini-batch Generation
 The training data needs to be pre-processed to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_[class].config`. You also need to select the *class* you want to train on. Inside the `scripts/preprocessing/gen_mini_batches.py` select the classes to process. By default it processes the *Car* and *People* classes, where the flag `process_[class]` is set to True. The People class includes both Pedestrian and Cyclists. You can also generate mini-batches for a single class such as *Pedestrian* only.
