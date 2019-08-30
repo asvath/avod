@@ -20,9 +20,9 @@ TABLE 1
 **Before proceeding, please ensure that you have read the list of files that were changed and make the same changes to your AVOD repo before proceeding to evaluate AVOD on CADCD or your own dataset.**
 
 ### List of files that were modified/added from/to the original AVOD repo [1]:
-- scripts/preprocessing/gen_mini_batches.py
-: ensure that 'process_ppl = True ' is set to False.
-- avod/builders/dataset_builders 
+#### 1: scripts/preprocessing/gen_mini_batches.py
+ Ensure that 'process_ppl = True ' is set to False.
+#### 2: avod/builders/dataset_builders 
 
 Recommended folder structure: 
 
