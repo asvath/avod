@@ -33,20 +33,20 @@ TABLE 1
 
 #### 3: avod/experiments/moose_run_evaluation.py (no changes/nothing new added)
 
-### 3: avod.builders config_builder no change
+#### 3: avod.builders config_builder no change
 
-### 3: from avod.core.models.avod_model import AvodModel no change rpn no change
+#### 3: from avod.core.models.avod_model import AvodModel no change rpn no change
 
-### 3: from avod.core.evaluator import Evaluator
+#### 3: from avod.core.evaluator import Evaluator
 
-### 3: avod/core/evaluator_utils.py
+#### 3: avod/core/evaluator_utils.py
 - Remove 'from wavedata.tools.core import calib_utils' (This is important as you do not want to call the wrong calibration)
 - Import your own calibration file : e.g from wavedata.tools.core import moose_load_calibration
 - Ensure that stereo_calib_p2 is your camera_matrix (CAM to IMG)
 
 Note that we refined stereo_calib_p2 in the script itself. It will be better to define p2 in your own calibration file (e.g moose_load_calibration) and import p2 whenever you need it instead of defining it everywhere.
 
-### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py
+#### 4: Create MooseClass : avod/datasets/kitti/moose_dataset.py***
 This is a new class for the CADCD dataset (create similar file for your own dataset)
 - Includes directory setup info (see set_up_directories)
 - Definition of transformation matrix from camera to img frame: stereo_calib_p2
@@ -54,20 +54,33 @@ This is a new class for the CADCD dataset (create similar file for your own data
 
 Note: Compare what changes were made with avod/datasets/kitti/kitti_dataset.py
 
-### 5: Create calibration file for your dataset: wavedata/tools/core/moose_load_calibration.py *** 
+#### 5: Create calibration file for your dataset: wavedata/tools/core/moose_load_calibration.py 
 
 This file was acquired from the CADCD devkit (https://github.com/wavelab/cadcd_devkit : load_calibration.py) 
 We call the file moose_load_calibration.py
 
-### 6: wavedata/tools/obj_detection/obj_utils
+#### 6: wavedata/tools/obj_detection/obj_utils
+- import wavedata/tools/core/calib_utils.py (note we normally do not import this, see 8.)
 - import your own calibration file
-- import depth_map_utils (we create this)
+- import wavedata/tools/core/depth_map_utils.py (we create this, see 7.)
 - change read_labels to suit the way your labels are named e.g (label_dir + "/" +"%010d.txt" % img_idx) instead of 
 (label_dir + "/%06d.txt" % img_idx)
 - define get_depth_map_point_cloud
 - change get_road_planes to load ground planes that you created for your own dataset
 
-### 7: wavedata/tools/core/depth_map_utils.py
+#### 7: wavedata/tools/core/depth_map_utils.py
+This was from AVOD's development repo (not public). Enjoy. 
+
+#### 8: wavedata/tools/core/calib_utils.py
+-Add project_pc_to_image (from AVOD's development repo (not public). Enjoy.)
+
+Note: We normally do not import calib_utils (as it works for the KITTI dataset and not the CADCD). However, the exception is, we import calib_utils in obj_utils.py as we want the get_stereo_calibration and project_to_image functions to create 3D visualizations of our predictions.
+
+#### 9: avod/datasets/kitti/kitti_utils.py ***
+- import your calibration file
+- import opencv
+- define a new get_point_cloud function (removed/commented out the original)
+
 
 
 
