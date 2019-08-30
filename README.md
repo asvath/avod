@@ -17,7 +17,7 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 
 **Before proceeding, please ensure that you have read through the list of files that were changed/added. Replace the files in your AVOD repo which you acquired from [1] using the modified files/new files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for other datasets.**
 
-**IMPORTANT: Any of the changes below that were made on wavelab can be found at https://github.com/asvath/wavedata instead of this repo or [1]**
+**IMPORTANT: Any of the changes below that were made on the wavedata folder can be found at https://github.com/asvath/wavedata instead of this repo or [1]**
 
 ### List of files that were modified from/added to the original AVOD repo [1]:
 
