@@ -15,7 +15,7 @@ We obtained the best scores at checkpoint 83,000. Our results at checkpoint 83,0
 
 ## Getting Started
 
-**Before proceeding, please ensure that you have read through the list of files that were changed. Replace the files in your AVOD repo which you acquired from [1] using the modified files/new files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for other datasets.**
+**Before proceeding, please ensure that you have read through the list of files that were changed/added. Replace the files in your AVOD repo which you acquired from [1] using the modified files/new files from this repo. Ensure that this is done before proceeding to evaluate AVOD on CADCD. Note that we have provided some descriptions of the changes made to aid anyone who wants to try modifying AVOD for other datasets.**
 
 ### List of files that were modified from/added to the original AVOD repo [1]:
 
