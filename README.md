@@ -1,7 +1,7 @@
 
 # Evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset(CADCD) (+ tips to run evaluation on your own dataset)
 
-This respository contains scripts that enables the evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (CADCD). It is not recommended to train AVOD using this respository. The public release of AVOD can be acquired at : https://github.com/kujason/avod (we will refer to this repository as [1])
+This respository contains scripts that enables the evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (CADCD). It is not recommended to train AVOD using this respository. The public release of AVOD can be acquired at : https://github.com/kujason/avod (we will reference this repository as [1])
 
 List of files that were changed from the original:
 
@@ -15,9 +15,11 @@ We obtained the best scores at checkpoint 83,000. Table 1. shows our evaluationr
 
 TABLE 1
 
-# Evaluation of AVOD
+# Evaluation of AVOD on CADCD
 
 ## Getting Started
+
+**Before proceeding, please ensure that you have read the list of files that were changed and make the same changes to your AVOD repo.**
 
 Recommended folder structure: 
 
@@ -72,7 +74,7 @@ To start evaluation, run the following:
 python avod/experiments/run_evaluation.py --pipeline_config=avod/configs/pyramid_cars_with_aug_example.config --device='0' --data_split='val'
 ```
 
-Note: In addition to evaluating the loss, calculating accuracies, etc, the evaluator also runs the KITTI native evaluation code on each checkpoint. Predictions are converted to KITTI format and the AP is calculated for every checkpoint. The results are saved inside `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
+Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
 
 
 ### Viewing Results
