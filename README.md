@@ -37,9 +37,9 @@ To utilize the files in this repo, we recommend the following folder structure:
 		│	└── data/
 		│	│	└── 0000000000.bin
 	     	│	└── timestamps.txt
-    		│			
-	    	└── planes
-            		└──0000000[0-7]00.txt
+		│			
+		└── planes
+			└──0000000[0-7]00.txt
 	
 
 ### Mini-batch Generation
