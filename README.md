@@ -173,7 +173,9 @@ Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with
 
 
 ### Viewing Results
-All results should be saved in `avod/data/outputs`. Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run `demos/moose_show_predictions_2d.py`, `demos/moose_show_predictions_3d.py` . 
+All results should be saved in `avod/data/outputs`. Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run `demos/moose_show_predictions_2d.py`, `demos/moose_show_predictions_3d.py` . The images will be saved in avod/data/outputs/pyramid_cars_with_aug_example(checkpoint name)/predictions/images_[2d_3d]
+The figure below shows an example image:
+
 
 
 ## LICENSE
