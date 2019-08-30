@@ -1,9 +1,9 @@
 
 # Evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset(CADCD) (+ tips to run evaluation on your own dataset)
 
-This respository contains scripts that enables the evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (CADCD). It is not recommended to train AVOD using this respository. The public release of AVOD can be acquired at : https://github.com/kujason/avod (we will reference this repository as [1])
+This respository contains scripts that enables the evaluation of the Aggrate View Object Detection (AVOD) on the Canadian Adverse Driving Conditions Dataset (CADCD). It is not recommended to train AVOD using this respository as several files were modified for the evaluation on CADCD. The public release of AVOD can be acquired at : https://github.com/kujason/avod (we will reference this repository as [1])
 
-List of files that were changed from the original:
+The list of files that were changed from the original can be found in Section Evaluation of AVOD on CADCD shown below.
 
 
 
