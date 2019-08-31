@@ -171,6 +171,8 @@ Stop as soon as it starts to run, as some files will be generated and those need
 
 Note: The results are located at `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7 for cars) 
 
+Note if you want to revaluate the same checkpoint, go into avod/data/outputs/pyramid_cars_with_aug_example/predictions, and delete the csv files. Run the evaluation again.
+
 
 ### Viewing Results
 All results should be saved in `avod/data/outputs`. Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run `demos/moose_show_predictions_2d.py`, `demos/moose_show_predictions_3d.py` . The images will be saved in avod/data/outputs/pyramid_cars_with_aug_example(checkpoint name)/predictions/images_[2d_3d]
