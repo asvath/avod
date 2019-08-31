@@ -141,7 +141,7 @@ To utilize the files in this repo, we recommend the following folder structure f
 	└──val.txt
 
 Note that we placed all the frames from all the cameras in the same folder (e.g image). The file names were changed to reflect the camera. e.g CAM 7 : original : 0000000008.png new : 0000000708.png. Same goes for annotation files.
-There were no changes to the lidar points data as all the frames relate to the same lidar files. Refer to : https://github.com/asvath/cadcd for info on how the annotation files were made.
+There were no changes to the lidar points data as all the frames relate to the same lidar files. Refer to : https://github.com/asvath/cadcd for info on how the annotation files were made. Note that we have included the val.txt file in this repo. It contains the list of files used for evaluation. Files that have no annotations (e.g no objects of interest in the frame) have been excluded from evaluation. Please contact me for the planes if required. More info available at : https://github.com/asvath/cadcd
 
 ### Mini-batch Generation
 We need to generate mini-batches for the RPN. To configure the mini-batches, you can modify `avod/configs/mb_preprocessing/rpn_cars.config`. Ensure that the *dataset_dir* points to the correct dataset that you want to evaluate on (e.g /home/moosey). Inside the `scripts/preprocessing/gen_mini_batches.py`, notice that the *cars* class is selected for processing (`process_car`) is set to True. 
